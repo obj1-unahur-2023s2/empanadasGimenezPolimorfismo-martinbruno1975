@@ -1,27 +1,41 @@
 object galvan {
-	var sueldo = 150000
+	var property sueldo = 150000
+	var totalDinero = 0
+	var totalDeuda = 0
 	
-	method sueldo() = sueldo
-	method sueldo(unSueldo){
-		sueldo = unSueldo
+	method cobrarSueldo() {
+		totalDinero += 0.max(sueldo - totalDeuda)
+		totalDeuda = 0.max(totalDeuda - sueldo)
 	}
 	
-	method cobrarSueldo(){}
+	method gastar(cuanto) {
+		totalDeuda += 0.max(cuanto - totalDinero) 
+		totalDinero = 0.max(totalDinero - cuanto) 
+	}
+	
+	method totalDeuda() = totalDeuda
+	method totalDinero() = totalDinero
 }
 
 object baigorria {
-	var sueldo = 0
-	var empanadasVendidas = 0
+	var empanadasVendidas = 1000
+	var totalCobrado = 0
 	
+	method totalCobrado() = totalCobrado 
+	method venderEmpanada(){
+		empanadasVendidas += 1
+	}
 	method sueldo() = empanadasVendidas * 150
-	method empanadasVendidas() = empanadasVendidas
-	method empanadasVendidas(cantidad){
-		empanadasVendidas = cantidad
-	}
-	
-	
-	method cobrarSueldo(){
-		
-	}
+	method cobrarSueldo(){totalCobrado += self.sueldo()}
 }
 
+object gimenez {
+	var dinero = 3000000
+	
+	method dinero() = dinero
+	method pagarA(empleado) {
+    	dinero -= empleado.sueldo()
+    	empleado.cobrarSueldo()
+	}
+		
+}
